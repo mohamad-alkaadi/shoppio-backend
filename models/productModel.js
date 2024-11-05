@@ -20,9 +20,12 @@ const productSchema = new mongoose.Schema({
   keywords: {
     type: [String],
   },
-  imageUrl: {
+  mainImageUrl: {
     type: String, // Field to store the image URL
     required: [true, "A product must have an image"],
+  },
+  additionalImagesUrl: {
+    type: [String],
   },
 })
 

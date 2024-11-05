@@ -61,6 +61,12 @@ exports.updateProduct = async (req, res) => {
         runValidators: true,
       }
     )
+    res.status(200).json({
+      status: "success",
+      data: {
+        product: updatedProduct,
+      },
+    })
   } catch (err) {
     res.status(404).json({
       status: "fail",
@@ -69,7 +75,7 @@ exports.updateProduct = async (req, res) => {
   }
 }
 
-exports.deleteProduct = async (res, res) => {
+exports.deleteProduct = async (req, res) => {
   try {
     await Product.findOneAndDelete(req.params.id)
     res.status(204).json({
