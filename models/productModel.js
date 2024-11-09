@@ -8,11 +8,16 @@ const productSchema = new mongoose.Schema({
   seller: {
     type: String,
   },
-  rating: { type: Number, default: 0 },
+  brand: {
+    type: String,
+  },
+  ratingsAverage: { type: Number, default: 4.5 },
+  ratingsQuantity: { type: Number, default: 0 },
   price: {
     type: Number,
     require: [true, "A product must have a price"],
   },
+  priceDiscount: Number,
   description: {
     type: String,
     default: "No description",
