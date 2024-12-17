@@ -5,33 +5,60 @@ const productSchema = new mongoose.Schema({
     type: String,
     require: [true, "A product must have a name"],
   },
+  description: {
+    type: String,
+    default: "No description",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+    select: false,
+  },
   seller: {
     type: String,
   },
   brand: {
     type: String,
   },
-  ratingsAverage: { type: Number, default: 4.5 },
-  ratingsQuantity: { type: Number, default: 0 },
   price: {
     type: Number,
     require: [true, "A product must have a price"],
   },
-  priceDiscount: Number,
-  description: {
-    type: String,
-    default: "No description",
+  priceDiscount: {
+    type: Number,
+    validate: {
+      validator: function (val) {
+        return val < this.price
+      },
+      message: "Discounted price should be less than the price",
+    },
   },
+  ratingsAverage: { type: Number, default: 4.5 },
+  ratingsQuantity: { type: Number, default: 0 },
   keywords: {
     type: [String],
   },
   mainImageUrl: {
-    type: String, // Field to store the image URL
-    required: [true, "A product must have an image"],
+    type: String,
+    require: [true, "A product must have a image"],
   },
   additionalImagesUrl: {
     type: [String],
   },
+  timesViewed: {
+    type: [String],
+  },
+  timesBought: {
+    type: [String],
+  },
+})
+
+productSchema.pre("save", function (next) {
+  if (this.priceDiscount >= this.price) {
+    next(new Error("Discounted price should be less than the price"))
+  } else {
+    next()
+  }
 })
 
 const Product = mongoose.model("Product", productSchema)
