@@ -25,6 +25,7 @@ exports.getAllProducts = async (req, res) => {
     } else {
       query = query.select("-__v")
     }
+
     const products = await query
 
     res.status(200).json({
